@@ -42,6 +42,25 @@ byteT=matriz_3d.nbytes
 print(f"Tamaño total en bytes: {byteT}")
 
 
+# 4 Modificar su forma y pasarla a 2D
+
+f=np.reshape(matriz_3d,(8000,150))
+forma=f.shape #me da la forma de la matriz, es decir, el número de elem en cada dimensión
+print(f"La forma de la matriz es: {forma}")
+tamaño=f.size #me da el numero total de atributos en la matriz
+print(f"El tamaño de la matriz es: {tamaño}")
+dimensiones=f.ndim #Numero de dimensiones de la matriz
+print(f"Las dimensiones de la matriz son: {dimensiones}")
+tipoDatos=f.dtype
+print(f"Los datos de la matriz son de tipo: {tipoDatos}")
+byte=f.itemsize
+print(f"Tamaño en bytes de cada elemento del array: {byte}")
+byteT=f.nbytes
+print(f"Tamaño total en bytes: {byteT}")
+
+
+
+
 
 
 
