@@ -28,6 +28,19 @@ print(matriz_3d.size)
 
 #3 De la matriz 3D, muestra todos los atributos propios de dicha matriz , dimensión, tamaño, etc
 
+forma=matriz_3d.shape #me da la forma de la matriz, es decir, el número de elem en cada dimensión
+print(f"La forma de la matriz es: {forma}")
+tamaño=matriz_3d.size #me da el numero total de atributos en la matriz
+print(f"El tamaño de la matriz es: {tamaño}")
+dimensiones=matriz_3d.ndim #Numero de dimensiones de la matriz
+print(f"Las dimensiones de la matriz son: {dimensiones}")
+tipoDatos=matriz_3d.dtype
+print(f"Los datos de la matriz son de tipo: {tipoDatos}")
+byte=matriz_3d.itemsize
+print(f"Tamaño en bytes de cada elemento del array: {byte}")
+byteT=matriz_3d.nbytes
+print(f"Tamaño total en bytes: {byteT}")
+
 
 
 
