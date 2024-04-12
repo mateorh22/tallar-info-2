@@ -58,6 +58,10 @@ print(f"Tamaño en bytes de cada elemento del array: {byte}")
 byteT=f.nbytes
 print(f"Tamaño total en bytes: {byteT}")
 
+# 5.Crea una función que reciba la matriz anterior y la pase a un objeto tipo dataframe de Pandas
+
+df= pd.DataFrame(f,columns=None)
+df
 
 
 
