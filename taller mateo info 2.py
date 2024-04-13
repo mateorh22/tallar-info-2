@@ -64,6 +64,24 @@ df= pd.DataFrame(f,columns=None)
 print(df)
 
 
+ # 6.Crear una función que permita cargar un archivo.mat y .csv
+
+def load(archivo):
+    if archivo.endswith('.mat'):
+        return sio.loadmat(archivo, variable_names=['nombre_variable'])
+    elif archivo.endswith('.csv'):
+        return pd.read_csv(archivo)
+    else:
+        raise ValueError("Formato de archivo no soportado")
+
+archivo = "/content/E00001.mat"
+loaded_data= load(archivo)
+loaded_data
+
+# 7 
+
+
+
 
 
 
