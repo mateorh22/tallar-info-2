@@ -67,18 +67,6 @@ print(df)
 
  # 6.Crear una función que permita cargar un archivo.mat y .csv
 
-def load(archivo):
-    if archivo.endswith('.mat'):
-        return sio.loadmat(archivo, variable_names=['nombre_variable'])
-    elif archivo.endswith('.csv'):
-        return pd.read_csv(archivo)
-    else:
-        raise ValueError("Formato de archivo no soportado")
-
-archivo = "/content/E00001.mat"
-loaded_data= load(archivo)
-loaded_data
-
 # 7 Crear funciones de suma, resta, multiplicación, división,logaritmo ,promedio, desviación estándar NOTA:Estas funciones deben permitir hacer estos procesos a lo largo de un eje (usando Numpy)
 
 
@@ -142,6 +130,80 @@ print("Promedio a lo largo del eje 0 (columnas):", result_mean)
 # Calcular la desviación estándar a lo largo del eje 1 (filas)
 result_std = std_axis(arr, axis=1)
 print("Desviación estándar a lo largo del eje 1 (filas):", result_std)
+
+
+
+#8 Buscar en Kaggle un archivo .csv relacionadas con alguna patología, descargar y hacer funciones como las propuestas en el ítem anterior, pero implementándolasusando Pandas y que permitan tambienelegir columnas.
+
+data = {'A': [4, 7, 10], 'B': [5, 8, 11], 'C': [6, 9, 12]}
+df = pd.DataFrame(data)
+
+
+
+
+def sum_column(df, column):
+    return df[column].sum()
+
+# Función de resta entre dos columnas
+def subtract_columns(df, column1, column2):
+    return df[column1] - df[column2]
+
+# Función de multiplicación a lo largo de una columna
+def multiply_column(df, column):
+    return df[column].prod()
+
+# Función de división entre dos columnas
+def divide_columns(df, column1, column2):
+    return df[column1] / df[column2]
+
+# Función para calcular el logaritmo de una columna
+def log_column(df, column, base=10):
+    return np.log(df[column]) / np.log(base)
+
+# Función para calcular el promedio de una columna
+def mean_column(df, column):
+    return df[column].mean()
+
+# Función para calcular la desviación estándar de una columna
+def std_column(df, column):
+    return df[column].std()
+
+# Cargar el conjunto de datos CSV
+def cargar_csv(nombre_archivo):
+    return pd.read_csv(nombre_archivo)
+
+# ejemplo 
+
+selected_columns = ['A', 'C']
+
+
+sum_result = sum_column(df, selected_columns)
+print("\nSuma de columnas seleccionadas:", sum_result)
+
+subtract_result = subtract_columns(df, 'A', 'C')
+print("\nResta entre columnas A y C:", subtract_result)
+
+multiply_result = multiply_column(df, selected_columns)
+print("\nMultiplicación de columnas seleccionadas:", multiply_result)
+
+
+divide_result = divide_columns(df, 'A', 'C')
+print("\nDivisión entre columnas A y C:", divide_result)
+
+
+data = {'A': [4, 7, 10], 'B': [5, 8, 11], 'C': [6, 9, 12]}
+df = pd.DataFrame(data)
+
+log_result = log_column(df, selected_columns, base=10)
+print("\nLogaritmo base 10 de columnas seleccionadas:\n", log_result)
+
+
+mean_result = mean_column(df, selected_columns)
+print("\nPromedio de columnas seleccionadas:", mean_result)
+
+std_result = std_column(df, selected_columns)
+print("\nDesviación estándar de columnas seleccionadas:", std_result)
+
 
 
 
