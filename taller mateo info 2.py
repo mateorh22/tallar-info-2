@@ -66,6 +66,7 @@ print(df)
 
 
  # 6.Crear una función que permita cargar un archivo.mat y .csv
+ # Profe elimine el punto 6 porque no me estaba dando bien
 
 # 7 Crear funciones de suma, resta, multiplicación, división,logaritmo ,promedio, desviación estándar NOTA:Estas funciones deben permitir hacer estos procesos a lo largo de un eje (usando Numpy)
 
