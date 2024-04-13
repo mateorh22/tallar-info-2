@@ -295,6 +295,280 @@ labels = ['A', 'B', 'C', 'D']
 plot_pie_subplot(data, labels, title="Gráfico de Sectores de Ejemplo", orientation='vertical')
 
 
+plt.ion()
+
+class Persona:
+    def __init__(self):
+        self.nombre = ""
+        self.cedula = 0
+        self.genero = ""
+        self.edad = 0
+        self.EEG = Biosenal()
+        self.ECG = Biosenal()
+        self.datos = ExamenTabular()
+
+    def asignarName(self, nombre):
+        self.nombre = nombre
+
+    def asignarCC(self, cedula):
+        self.cedula = cedula
+
+    def asignarEdad(self, edad):
+        self.edad = edad
+
+    def asignarGenero(self, genero):
+        self.genero = genero
+
+    def asignarEEG(self, EEG):
+        self.EEG = EEG
+
+    def asignarECG(self, ECG):
+        self.ECG = ECG
+
+    def asignarEsta(self, datos):
+        self.datos = datos
+
+    def verName(self):
+        return self.nombre
+
+    def verCC(self):
+        return self.cedula
+
+    def verGenero(self):
+        return self.genero
+
+    def verEdad(self):
+        return self.edad
+
+    def verEEG(self):
+        return self.EEG
+
+    def verECG(self):
+        return self.ECG
+
+    def verEsta(self):
+        return self.datos
+
+
+class Sistema:
+    def __init__(self):
+        self.pacientes = {}
+
+    def ingresarPac(self, paciente):
+        self.pacientes[paciente.verCC()] = paciente
+
+    def verPac(self, ced):
+        return self.pacientes.get(ced, False)
+
+
+class Biosenal:
+    def __init__(self, data=np.zeros((2, 2))):
+        self.data = data
+        self.dimension = self.data.ndim
+        self.forma = self.data.shape
+        self.tamano = self.data.size
+        self.canales = self.forma[0]
+        self.puntos = self.forma[1]
+
+    def __str__(self):
+        return f"""Las características de la matriz de la señal matriz son:
+                    forma: {self.forma}
+                    dimension: {self.dimension}
+                    tamaño: {self.tamano}"""
+
+    def asignarDatos(self, data):
+        self.data = data
+        self.dimension = self.data.ndim
+        self.forma = self.data.shape
+        self.tamano = self.data.size
+        self.canales = data.forma[0]
+        self.puntos = data.forma[1]
+
+    def verForma(self):
+        return self.forma
+
+    def verDim(self):
+        return self.dimension
+
+    def verTam(self):
+        return self.tamano
+
+    def verCanales(self):
+        return self.canales
+
+    def verPuntos(self):
+        return self.puntos
+
+    def devolver_Canal(self, canal, pmin, pmax):
+        if pmin >= pmax:
+            return None
+        return self.data[canal, pmin:pmax]
+
+    def devolver_Segmento(self, pmin, pmax):
+        if pmin >= pmax:
+            return None
+        return self.data[:, pmin:pmax]
+
+    def promedio(self, eje, pmin, pmax):
+        return np.mean(self.data[:, pmin:pmax], axis=eje)
+
+    def desviacion(self, eje, pmin, pmax):
+        return np.std(self.data[:, pmin:pmax], axis=eje)
+
+
+class ExamenTabular(Biosenal):
+    def __init__(self, data=np.zeros((2, 2))):
+        Biosenal.__init__(self, data)
+        self.tablaEx = pd.DataFrame(self.data)
+        self.columnas = self.tablaEx.columns
+
+    def verCol(self):
+        return self.columnas
+
+    def procesoEstadistico(self):
+        return self.tablaEx.describe()
+
+    def devolver_Segmento(self, imin, imax, columnas):
+        if imin >= imax:
+            return None
+        return self.tablaEx.iloc[imin:imax, [columnas]]
+
+    def promedio(self):
+        eje = int(input("Ingrese:\n 0- A lo largo de las columnas\n 1- A lo largo de las filas"))
+        return self.tablaEx.mean(axis=eje)
+
+    def desviacion(self):
+        eje = int(input("Ingrese:\n 0- A lo largo de las columnas\n 1- A lo largo de las filas"))
+        return self.tablaEx.std(axis=eje)
+
+    def mediana(self):
+        eje = int(input("Ingrese:\n 0- A lo largo de las columnas\n 1- A lo largo de las filas"))
+        return self.tablaEx.median(axis=eje)
+
+    def grafico(self, columnas):
+        self.tablaEx.boxplot(columnas)
+
+
+class Graficadora:
+    def __init__(self):
+        self.fig, self.axes = plt.subplots(nrows=3, ncols=1, figsize=(10, 8))
+
+    def graficarSenal(self, datos):
+        if datos.ndim == 1:
+            self.axes[0].plot(datos)
+        else:
+            for c in range(datos.shape[0]):
+                self.axes[0].plot(datos[c, :] + c*600)
+        nx = input("Ingrese nombre del eje x: ")
+        ny = input("Ingrese nombre del eje y: ")
+        tit = input("Titulo: ")
+        self.axes[0].set_xlabel(nx)
+        self.axes[0].set_ylabel(ny)
+        self.axes[0].set_title(tit)
+        plt.show()
+
+    def graficaPromedio(self, datos):
+        self.axes[1].clear()
+        self.axes[1].stem(datos)
+        self.axes[1].set_xlabel('Sensores')
+        self.axes[1].set_ylabel('Promedio Voltaje (uV)')
+        self.axes[1].set_title('Promedios EEG')
+        plt.show()
+
+    def graficarHistograma(self, datos):
+        self.axes[2].clear()
+        self.axes[2].hist(datos)
+        self.axes[2].set_xlabel('Bins')
+        self.axes[2].set_ylabel('Frecuencia')
+        self.axes[2].set_title('Histograma de EEG')
+        plt.show()
+
+
+
+
+
+
+#11 Para la graficación permitir al usuario elegir entre un diseño de 3subplots (vertical, horizontalo en diagonal), es decir de una columna varias filas o viceversa.
+
+def main():
+    sistema = Sistema()
+    while True:
+        print("\n\t>>>>> MENU PRINCIPAL <<<<<\n1- Ingresar Paciente\n2- Graficar EEG\n3- Estadísticas del Examen\n4- Salir")
+        opcion = int(input("--> "))
+        if opcion == 1:
+            paciente = Persona()
+            paciente.asignarName(input("Ingrese nombre: "))
+            paciente.asignarCC(int(input("Ingrese cedula: ")))
+            paciente.asignarEdad(int(input("Ingrese edad: ")))
+            paciente.asignarGenero(input("Ingrese genero: "))
+            tipo_archivo = int(input("Indique según archivo a abrir:\n 1-Archivo .mat\n2- Archivo .csv\n--> "))
+            if tipo_archivo == 1:
+                diccionario = sio.loadmat(input("Ruta del archivo .mat: "))
+                llaves = list(diccionario.keys())
+                print("Llaves encontradas:")
+                for i, llave in enumerate(llaves):
+                    print(f"{i+1}: {llave}")
+                llave_seleccionada = int(input("Seleccione el número correspondiente a la matriz de interés: "))
+                matriz = diccionario[llaves[llave_seleccionada-1]]
+                if matriz.ndim == 3:
+                    canales, puntos, ensayos = matriz.shape
+                    matriz = np.reshape(matriz, (canales, puntos*ensayos), order="F")
+                    senal_eeg = Biosenal(matriz)
+                    paciente.asignarEEG(senal_eeg)
+                else:
+                    senal_eeg = Biosenal(matriz)
+                    paciente.asignarEEG(senal_eeg)
+            else:
+                matriz = pd.read_csv(input("Ruta del archivo .csv: "), sep=";")
+                examen = ExamenTabular(matriz)
+                paciente.asignarEsta(examen)
+            sistema.ingresarPac(paciente)
+
+        elif opcion == 2:
+            cedula_paciente = int(input("Ingrese la cédula del paciente del que desea hacer la grafica: "))
+            paciente = sistema.verPac(cedula_paciente)
+            eeg_paciente = paciente.verEEG()
+            print(f"Información de la señal EEG: \n {eeg_paciente}")
+            while True:
+                print("\n¿Qué desea graficar?")
+                print("\t1. Todos los canales\n\t2. Un solo canal\n\t3. El promedio\n\t4. Salir de la graficación")
+                submenu = int(input("--> "))
+                if submenu == 1:
+                    min_punto = int(input("Ingrese punto inicial del segmento que desea graficar: "))
+                    max_punto = int(input("Ingrese punto final del segmento que desea graficar: "))
+                    graficadora = Graficadora()
+                    graficadora.graficarSenal(eeg_paciente.devolver_Segmento(min_punto, max_punto))
+                elif submenu == 2:
+                    canal_seleccionado = int(input("Ingrese el canal que desea graficar: "))
+                    min_punto = int(input("Ingrese punto inicial del segmento que desea graficar: "))
+                    max_punto = int(input("Ingrese punto final del segmento que desea graficar: "))
+                    graficadora = Graficadora()
+                    graficadora.graficarSenal(eeg_paciente.devolver_Canal(canal_seleccionado, min_punto, max_punto))
+                elif submenu == 3:
+                    eje = int(input("Ingrese el eje a lo largo del cual desea hacer el promedio (0 o 1): "))
+                    min_punto = int(input("Ingrese punto inicial del segmento que desea graficar: "))
+                    max_punto = int(input("Ingrese punto final del segmento que desea graficar: "))
+                    graficadora = Graficadora()
+                    graficadora.graficaPromedio(eeg_paciente.promedio(eje, min_punto, max_punto))
+                elif submenu == 4:
+                    break
+
+        elif opcion == 3:
+            cedula_paciente = int(input("Ingrese la cédula del paciente del que desea hacer los cálculos: "))
+            paciente = sistema.verPac(cedula_paciente)
+            examen_tabular = paciente.verEsta()
+            if examen_tabular is not None:
+                print("Columnas disponibles:")
+                print(examen_tabular.verCol())
+                columna_seleccionada = input("Ingrese la columna que desea graficar: ")
+                examen_tabular.grafico([columna_seleccionada])
+
+        elif opcion == 4:
+            break
+
+if __name__ == "__main__":
+    main()
+
 
 
 
