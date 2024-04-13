@@ -234,8 +234,65 @@ plt.ylabel("Eje Y")  # Etiqueta del eje Y
 plt.show()
 
 
+# 10 Las funciones de graficación deben pedir al usuario los títulos de gráficos y los ejes, activar leyendas , activar la cuadricula.
+
+def plot_histogram_subplot(data, bins=10, title="", xlabel="", ylabel="", orientation='vertical'):
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5)) if orientation == 'horizontal' else plt.subplots(2, 1, figsize=(5, 12))
+    axes[0].hist(data, bins=bins, edgecolor='k')
+    axes[0].set_title(title)
+    axes[0].set_xlabel(xlabel)
+    axes[0].set_ylabel(ylabel)
+    if orientation == 'horizontal':
+        plt.tight_layout()
+    plt.show()
+
+# Ejemplo de uso
+data = [1, 5, 6, 4, 4, 4, 2, 7, 6, 6, 6, 6]
+plot_histogram_subplot(data, bins=5, title="Histograma de Ejemplo", xlabel="Valores", ylabel="Frecuencia", orientation='vertical')
+
+#Stem
+def plot_stem_subplot(data, title="", xlabel="Tallos", ylabel="Hojas", orientation='vertical'):
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5)) if orientation == 'horizontal' else plt.subplots(2, 1, figsize=(5, 12))
+    stems, leaves = zip(*[(int(str(val)[:-1]), int(str(val)[-1])) for val in data])
+    axes[0].stem(stems, leaves, use_line_collection=True)
+    axes[0].set_title(title)
+    axes[0].set_xlabel(xlabel)
+    axes[0].set_ylabel(ylabel)
+    if orientation == 'horizontal':
+        plt.tight_layout()
+    plt.show()
+
+data = [14, 27, 37, 52, 58, 73, 81, 89, 90]
+plot_stem_subplot(data, title="Gráfico de Tallos y Hojas de Ejemplo", orientation='vertical')
+
+def plot_bar_subplot(data, labels, title="", xlabel="", ylabel="", orientation='vertical'):
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5)) if orientation == 'horizontal' else plt.subplots(2, 1, figsize=(5, 12))
+    axes[0].bar(labels, data)
+    axes[0].set_title(title)
+    axes[0].set_xlabel(xlabel)
+    axes[0].set_ylabel(ylabel)
+    if orientation == 'horizontal':
+        plt.tight_layout()
+    plt.show()
 
 
+data = [10, 15, 20, 25, 30]
+labels = ['A', 'B', 'C', 'D', 'E']
+plot_bar_subplot(data, labels, title="Gráfico de Barras de Ejemplo", xlabel="Categorías", ylabel="Valores", orientation='vertical')
+
+
+def plot_pie_subplot(data, labels, title="", orientation='vertical'):
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5)) if orientation == 'horizontal' else plt.subplots(2, 1, figsize=(5, 12))
+    axes[0].pie(data, labels=labels, autopct='%1.1f%%', startangle=90)
+    axes[0].set_title(title)
+    axes[0].axis('equal')
+    if orientation == 'horizontal':
+        plt.tight_layout()
+    plt.show()
+
+data = [60, 30, 20, 10]
+labels = ['A', 'B', 'C', 'D']
+plot_pie_subplot(data, labels, title="Gráfico de Sectores de Ejemplo", orientation='vertical')
 
 
 
