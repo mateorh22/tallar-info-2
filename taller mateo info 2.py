@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import scipy.io as sio
 
+
 # 1. Crear una matriz de Numpy aleatoria de 4dimensiones y un sizede 1200000  
 
 dim1=10
@@ -78,7 +79,71 @@ archivo = "/content/E00001.mat"
 loaded_data= load(archivo)
 loaded_data
 
-# 7 
+# 7 Crear funciones de suma, resta, multiplicación, división,logaritmo ,promedio, desviación estándar NOTA:Estas funciones deben permitir hacer estos procesos a lo largo de un eje (usando Numpy)
+
+
+def sum_axis(arr, axis=None):
+    return np.sum(arr, axis=axis)
+
+
+def subtract_axis(arr1, arr2, axis=None):
+    return np.subtract(arr1, arr2)
+
+
+def multiply_axis(arr, axis=None):
+    return np.prod(arr, axis=axis)
+
+
+def divide_axis(arr1, arr2, axis=None):
+    return np.divide(arr1, arr2)
+
+
+def log_axis(arr, base=10, axis=None):
+    return np.log(arr) / np.log(base)
+
+
+def mean_axis(arr, axis=None):
+    return np.mean(arr, axis=axis)
+
+
+def std_axis(arr, axis=None):
+    return np.std(arr, axis=axis)
+
+
+# ejemplo
+arr = np.array([[3, 4, 5], [6, 7, 8]])
+
+# Suma a lo largo del eje 0 (columnas)
+result_sum = sum_axis(arr, axis=0)
+print("\nSuma a lo largo del eje 0:", result_sum)
+
+# Resta a lo largo del eje 1 (filas)
+arr2 = np.array([1, 2, 3])
+result_subtract = subtract_axis(arr, arr2, axis=1)
+print("\nResta a lo largo del eje 1:", result_subtract)
+
+# Multiplicación a lo largo del eje 0 (columnas)
+result_multiply = multiply_axis(arr, axis=0)
+print("\nMultiplicación a lo largo del eje 0:", result_multiply)
+
+# División a lo largo del eje 1 (filas)
+arr3 = np.array([2, 2, 2])
+result_divide = divide_axis(arr, arr3, axis=1)
+print("\División a lo largo del eje 1:", result_divide)
+
+# Calcular el logaritmo base 10 a lo largo de todo el arreglo
+result_log = log_axis(arr, base=10)
+print("Logaritmo base 10 a lo largo de todo el arreglo:\n", result_log)
+
+# Calcular el promedio a lo largo del eje 0 (columnas)
+result_mean = mean_axis(arr, axis=0)
+print("Promedio a lo largo del eje 0 (columnas):", result_mean)
+
+# Calcular la desviación estándar a lo largo del eje 1 (filas)
+result_std = std_axis(arr, axis=1)
+print("Desviación estándar a lo largo del eje 1 (filas):", result_std)
+
+
 
 
 
