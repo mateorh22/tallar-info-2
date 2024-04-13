@@ -1,6 +1,9 @@
 import numpy as np
 import pandas as pd
 import scipy.io as sio
+import matplotlib.pyplot as plt
+from scipy.io import loadmat
+from scipy.signal import welch
 
 
 # 1. Crear una matriz de Numpy aleatoria de 4dimensiones y un sizede 1200000  
@@ -66,7 +69,20 @@ print(df)
 
 
  # 6.Crear una función que permita cargar un archivo.mat y .csv
- # Profe elimine el punto 6 porque no me estaba dando bien
+
+ #def load(archivo):
+  #if archivo.endswith('.mat'):
+   # return sio.loadmat(archivo, variable_names=['nombre_variable'])
+  #elif archivo.endswith('.csv'):
+   # return pd.read_csv(archivo)
+  #else:
+   # raise ValueError("Formato de archivo no soportado")
+
+#archivo = "/content/E00001.mat"
+#loaded_data= load(archivo)
+#loaded_data
+#NO me funciono profe
+
 
 # 7 Crear funciones de suma, resta, multiplicación, división,logaritmo ,promedio, desviación estándar NOTA:Estas funciones deben permitir hacer estos procesos a lo largo de un eje (usando Numpy)
 
@@ -204,6 +220,19 @@ print("\nPromedio de columnas seleccionadas:", mean_result)
 
 std_result = std_column(df, selected_columns)
 print("\nDesviación estándar de columnas seleccionadas:", std_result)
+
+# 9 Usar matplotlib para graficar la señal del archivo mat del punto 6 y crear funciones para graficar histogramas, stems, barras, pies 
+matrix = np.array(f)
+
+
+plt.imshow(matrix, cmap='viridis')  # cmap es un mapa de colores opcional
+plt.colorbar()  # Agregar una barra de colores para indicar los valores
+plt.title("Matriz 2D")  # Agregar un título a la gráfica
+plt.xlabel("Eje X")  # Etiqueta del eje X
+plt.ylabel("Eje Y")  # Etiqueta del eje Y
+
+plt.show()
+
 
 
 
